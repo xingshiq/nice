@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./cssme/classmanager.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="top">
+            <div class="left">
+            </div>
+            <div class="right">
+                <span>
+                    <img src="./images/avatar.png" alt="">
+                    姓名002
+                </span>
+                <span>
+                    <img src="./images/notice.png" alt="">
+                    通知公告
+                </span>
+                <span>
+                    <img src="./images/quit.png" alt="">
+                    注销退出
+                </span>
+            </div>
+        </div>
+
+        <div class="bx">
+            <div class="contentLeft">
+                <div class="contentLeftTop">
+                    <span>教学点管理</span>
+
+                </div>
+
+                <div class="contentLeftList">
+                    <div id="classmanager"><span>班级管理</span> <span>></span></div>
+                    <div id="stumanager"><span>学生管理</span> <span>></span></div>
+                    <div id="classadd"><span>添加班级</span> <span>></span></div>
+                    <div id="change"><span>修改班级</span> <span>></span></div>
+                    <div id="stuadd"><span>添加学生</span> <span>></span></div>
+                    <div id="changestu"><span>修改学生</span> <span>></span></div>
+                    <div><span>成绩管理</span> <span>></span></div>
+                    <div><span>修改成绩</span> <span>></span></div>
+
+                </div>
+
+
+            </div>
+
+            <div class="contentRight">
+                <h3>前端实训课程————学生列表 【码路教育】</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>性别</th>
+                            <th>学号</th>
+                            <th>班级</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>18</td>
+                            <td>001</td>
+                            <td>2207</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+                        <tr>
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>18</td>
+                            <td>001</td>
+                            <td>2207</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+                        <tr>
+                            <td>张三</td>
+                            <td>男</td>
+                            <td>18</td>
+                            <td>001</td>
+                            <td>2207</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const body = document.getElementsByTagName("tbody")[0]
+        const btn = document.getElementById("btn")
+        const classmanager = document.getElementById("classmanager")
+        const stumanager = document.getElementById("stumanager")
+        const change = document.getElementById("change")
+        const stuadd = document.getElementById("stuadd")
+        const classadd = document.getElementById("classadd")
+        const changestu = document.getElementById("changestu")
+
+        classmanager.onclick = function () {
+            location.href = "./classmanager.html"
+        }
+        stuadd.onclick = function () {
+            location.href = "./stuadd.html"
+        }
+        stumanager.onclick = function () {
+            location.href = "./stumanager.html"
+        }
+        change.onclick = function () {
+            location.href = "./edit.html"
+        }
+        classadd.onclick = function(){
+            location.href = "./classadd.html"
+
+        }
+        changestu.onclick = function(){
+            location.href = "./stuedit.html"
+
+        }
+        let arr = []
+        function update() {
+            console.log("up");
+            sessionStorage.setItem("stu", JSON.stringify(arr))
+
+        }
+        function show() {
+            console.log("show");
+            let word = ""
+            for (let i = 0; i < arr.length; i++) {
+                word += ` <tr>
+                            <td>${arr[i].stuname}</td>
+                            <td>${arr[i].stuage}</td>
+                            <td>${arr[i].sexsta}</td>
+                            <td>${arr[i].stuid}</td>
+                            <td>${arr[i].clasta}</td>
+                            <td><span class="del">删除</span><span class = "edit">编辑</span></td>
+                         </tr>`
+            }
+            body.innerHTML = word;
+
+            del()//11
+
+
+
+
+
+        }
+        function add() {
+            console.log("add");
+            if (sessionStorage.getItem("stuadd")) {
+                let nwadd = JSON.parse(sessionStorage.getItem("stuadd"))
+                console.log(arr);
+                if (nwadd) {
+                    arr.push(nwadd)
+                    update();
+                    sessionStorage.removeItem("stuadd");
+                }
+            }
+
+            show();
+
+        }
+        function del() {
+            const del = document.getElementsByClassName("del")
+            for (let i = 0; i < arr.length; i++) {
+                del[i].onclick = function () {
+                    arr.splice(i, 1)
+                    update()
+                    show()
+                }
+
+            }
+        }
+
+        function edit() {
+            const edit = document.getElementsByClassName("edit")
+            for (let i = 0; i < arr.length; i++) {
+                edit[i].onclick = function () {
+                    // alert("1")
+                    update()
+                    location.href = "./stuedit.html"
+
+                    JSON.stringify(sessionStorage.setItem("stuchange", i))
+
+                }
+            }
+
+
+
+        }
+
+        if (sessionStorage.getItem("stu")) {
+            arr = JSON.parse(sessionStorage.getItem("stu"))
+
+        }
+        else {
+            arr = [
+                {
+                    stuname: "张三",
+                    stuage: "20",
+                    stuid: "001",
+                    sexsta:"女",
+                    clasta: "2210",
+                },
+                {
+                    stuname: "张三",
+                    stuage: "20",
+                    stuid: "001",
+                    sexsta:"女",
+                    clasta: "2210",
+                },
+
+                {
+                    stuname: "张三",
+                    stuage: "20",
+                    stuid: "001",
+                    sexsta:"女",
+                    clasta: "2210",
+                },
+
+
+            ]
+        }
+        console.log(arr);
+
+            add()
+
+            del()
+
+            edit()
+
+
+
+
+    </script>
+</body>
+
+</html>

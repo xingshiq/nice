@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./cssme/classmanager.css">
+
+</head>
+
+<body>
+    <div class="all">
+        <div class="top">
+            <div class="left">
+            </div>
+            <div class="right">
+                <span>
+                    <img src="./images/avatar.png" alt="">
+                    姓名002
+                </span>
+                <span>
+                    <img src="./images/notice.png" alt="">
+                    通知公告
+                </span>
+                <span>
+                    <img src="./images/quit.png" alt="">
+                    注销退出
+                </span>
+            </div>
+        </div>
+
+        <div class="bx">
+            <div class="contentLeft">
+                <div class="contentLeftTop">
+                    <span>教学点管理</span>
+
+                </div>
+
+                <div class="contentLeftList">
+                    <div id="classmanager"><span>班级管理</span> <span>></span></div>
+                    <div id="stumanager"><span>学生管理</span> <span>></span></div>
+                    <div id="classadd"><span>添加班级</span> <span>></span></div>
+                    <div id="change"><span>修改班级</span> <span>></span></div>
+                    <div id="stuadd"><span>添加学生</span> <span>></span></div>
+                    <div id="changestu"><span>修改学生</span> <span>></span></div>
+                    <div><span>成绩管理</span> <span>></span></div>
+                    <div><span>修改成绩</span> <span>></span></div>
+
+                </div>
+
+
+            </div>
+
+            <div class="contentRight">
+                <h3>前端实训课程————班级列表 【码路教育】</h3>
+
+                <br>
+
+
+                <ul>
+                    <li> 学生姓名： <input type="text" id="stuname"></li>
+                    <li> 学生性别：
+                        <select name="" id="stusex">
+                            <option value="男">男</option>
+                            <option value="女">女</option>
+                        </select>
+                    </li>
+                    <li>
+                        学生年龄：<input type="text" name="" id="stuage">
+                    </li>
+                    <li> 学生班级：
+                        <select name="" id="stuclas">
+                            <option value="2207" selected = "faluse">2207</option>
+                            <option value="2208" selected = "faluse">2208</option>
+                            <option value="2209" selected = "faluse">2209</option>
+                            <option value="2210" selected = "faluse">2210</option>
+                        </select>
+                    </li>
+                    <li>
+                        学生学号：<input type="text" name="" id="stuid">
+                    </li>
+                </ul>
+
+                <button id="btn">修改</button>
+
+
+            </div>
+        </div>
+    </div>
+    <script>
+        const sex = document.querySelectorAll("#stusex option")
+        const stuclas = document.querySelectorAll("#stuclas option")
+        const stuname = document.getElementById("stuname")
+        const stuage = document.getElementById("stuage")
+        const stuid = document.getElementById("stuid")
+        const btn = document.getElementById("btn")
+        const classmanager = document.getElementById("classmanager")
+        const stumanager = document.getElementById("stumanager")
+        const change = document.getElementById("change")
+        const stuadd = document.getElementById("stuadd")
+        const classadd = document.getElementById("classadd")
+        const changestu = document.getElementById("changestu")
+
+        classmanager.onclick = function () {
+            location.href = "./classmanager.html"
+        }
+        stuadd.onclick = function () {
+            location.href = "./stuadd.html"
+        }
+        stumanager.onclick = function () {
+            location.href = "./stumanager.html"
+        }
+        change.onclick = function () {
+            location.href = "./edit.html"
+        }
+        classadd.onclick = function(){
+            location.href = "./classadd.html"
+
+        }
+        changestu.onclick = function(){
+            location.href = "./stuedit.html"
+
+        }
+        
+        let editarr = JSON.parse(sessionStorage.getItem("stu"))
+        let id = JSON.parse(sessionStorage.getItem("stuchange"))
+        let currcla
+        stuname.value = editarr[id].stuname
+        stuage.value = editarr[id].stuage
+        stuid.value = editarr[id].stuid
+        console.log(sex.length);
+        for (let i = 0; i < sex.length; i++) {
+
+
+
+            if (editarr[id].sexsta == sex[i].value) {
+                var num = sex[i].value
+                sex[i].selected = "true"
+
+            }
+            
+        }
+        for(let j =0;j <stuclas.length;j++ ){
+            if (editarr[id].clasta == stuclas[j].value) {
+                // var num = sex[j].value
+                stuclas[j].selected = "true"
+
+            }
+
+        }
+
+
+
+        btn.onclick = function () {
+            for(let j = 0;j<stuclas.length;j++){
+            if(stuclas[j].selected == true){
+                currcla = stuclas[j].value
+                console.log(currcla);
+
+            }
+
+        }
+        for(let j = 0;j<sex.length;j++){
+            if(sex[j].selected == true){
+                currsex = sex[j].value
+                console.log(currcla);
+
+            }
+
+        }
+            editarr[id].stuname = stuname.value;
+            editarr[id].stuage = stuage.value;
+            editarr[id].stuid = stuid.value;
+            editarr[id].sexsta = currsex;
+            editarr[id].clasta = currcla;
+
+            // editarr[id].option.selected = "true"
+
+            // alert("1")
+
+
+            sessionStorage.setItem("stu", JSON.stringify(editarr))
+            location.href = "./stumanager.html"
+        }
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+</body>
+
+</html>

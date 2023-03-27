@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./cssme/classmanager.css">
+
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <div class="all">
+        <div class="top">
+            <div class="left">
+            </div>
+            <div class="right">
+                <span>
+                    <img src="./images/avatar.png" alt="">
+                    姓名002
+                </span>
+                <span>
+                    <img src="./images/notice.png" alt="">
+                    通知公告
+                </span>
+                <span>
+                    <img src="./images/quit.png" alt="">
+                    注销退出
+                </span>
+            </div>
+        </div>
+
+        <div class="bx">
+            <div class="contentLeft">
+                <div class="contentLeftTop">
+                    <span>教学点管理</span>
+
+                </div>
+
+                <div class="contentLeftList">
+                    <div id="classmanager"><span>班级管理</span> <span>></span></div>
+                    <div id="stumanager"><span>学生管理</span> <span>></span></div>
+                    <div id="classadd"><span>添加班级</span> <span>></span></div>
+                    <div id="change"><span>修改班级</span> <span>></span></div>
+                    <div id="stuadd"><span>添加学生</span> <span>></span></div>
+                    <div id="changestu"><span>修改学生</span> <span>></span></div>
+                    <div><span>成绩管理</span> <span>></span></div>
+                    <div><span>修改成绩</span> <span>></span></div>
+
+                </div>
+
+
+            </div>
+
+            <div class="contentRight">
+                <h3>前端实训课程————班级列表 【码路教育】</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>开课时间</th>
+                            <th>课程名称</th>
+                            <th>课程操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2022-09</td>
+                            <td>已结业</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+                        <tr>
+                            <td>2022-09</td>
+                            <td>已结业</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+                        <tr>
+                            <td>2022-09</td>
+                            <td>已结业</td>
+                            <td><span class="del">删除</span><span>编辑</span></td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const body = document.getElementsByTagName("tbody")[0]
+        const btn = document.getElementById("btn")
+        const classmanager = document.getElementById("classmanager")
+        const stumanager = document.getElementById("stumanager")
+        const change = document.getElementById("change")
+        const stuadd = document.getElementById("stuadd")
+        const classadd = document.getElementById("classadd")
+        const changestu = document.getElementById("changestu")
+
+        classmanager.onclick = function () {
+            location.href = "./classmanager.html"
+        }
+        stuadd.onclick = function () {
+            location.href = "./stuadd.html"
+        }
+        stumanager.onclick = function () {
+            location.href = "./stumanager.html"
+        }
+        change.onclick = function () {
+            location.href = "./edit.html"
+        }
+        classadd.onclick = function(){
+            location.href = "./classadd.html"
+
+        }
+        changestu.onclick = function(){
+            location.href = "./stuedit.html"
+
+        }
+        let arr = []
+        function update() {
+            console.log("up");
+            sessionStorage.setItem("all",JSON.stringify(arr))
+            
+        }
+        function show(){
+            console.log("show");
+            let word = ""
+            for(let i = 0;i<arr.length;i++){
+                 word +=` <tr>
+                            <td>${arr[i].event}</td>
+                            <td>${arr[i].option}</td>
+                            <td><span class="del">删除</span><span class = "edit">编辑</span></td>
+                         </tr>`
+            }
+            body.innerHTML = word;
+
+            // const del = document.getElementsByClassName("del")
+            del()
+
+
+
+
+
+        }
+        function add(){
+            console.log("add");
+            if(sessionStorage.getItem("addarr"))
+            {                
+            let nwadd = JSON.parse(sessionStorage.getItem("addarr"))
+            console.log(arr);
+            if(nwadd){
+            arr.push(nwadd)
+            update();
+            sessionStorage.removeItem("addarr");
+            }
+            }
+
+            show();
+
+        }
+        function del(){
+            const del = document.getElementsByClassName("del")
+            for(let i = 0;i<arr.length;i++){
+                del[i].onclick = function(){
+                    arr.splice(i,1)
+                    update()
+                    show()
+                }
+
+            }
+        }
+
+        function edit(){
+            const edit = document.getElementsByClassName("edit")
+            for(let i = 0;i<arr.length;i++){
+                edit[i].onclick = function(){
+                    // alert("1")
+                    update()
+                    location.href = "./edit.html"
+                    
+                    JSON.stringify(sessionStorage.setItem("change",i))
+
+                }
+            }
+
+
+
+        }
+
+            if (sessionStorage.getItem("all")) {
+                arr = JSON.parse(sessionStorage.getItem("all"))
+
+            }
+            else {
+                arr = [
+                    {
+                        event: "2022-08",
+                        option: "实训中",
+                    },                    
+                    {
+                        event: "2022-08",
+                        option: "实训中",
+                    },                    
+                    {
+                        event: "2022-08",
+                        option: "实训中",
+                    },
+                ]
+            }
+            console.log(arr);
+
+            add()
+
+            del()
+
+            edit()
+
+        
+   
+
+    </script>
+</body>
+
+</html>
